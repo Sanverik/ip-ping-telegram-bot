@@ -1,1 +1,1 @@
-variable "token" {}
+variable "GITHUB_TOKEN" {}

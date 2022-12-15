@@ -4,7 +4,7 @@ import telebot
 
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
-IP = os.environ.get('IP')
+TARGET_IP = os.environ.get('TARGET_IP')
 CHANNEL_ID = os.environ.get('CHANNEL_ID')
 KEY_VALUE_STORE_TOKEN = os.environ.get('KEY_VALUE_STORE_TOKEN')
 
@@ -19,7 +19,7 @@ def update_light_status(value):
 
 
 def ping_and_notify():
-    response = os.system(f'ping -c 1 {IP}')
+    response = os.system(f'ping -c 1 {TARGET_IP}')
     bot = telebot.TeleBot(BOT_TOKEN)
     if response == 0:
         bot.send_message(CHANNEL_ID, '/dream_off')
