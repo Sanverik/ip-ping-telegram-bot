@@ -1,0 +1,2 @@
+pytelegrambotapi==3.6.6
+requests==2.27.1
