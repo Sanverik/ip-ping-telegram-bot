@@ -1,0 +1,7 @@
+/secrets/
+*.lock.*
+*.terraform*
+/infra/lambda/builds/
+*.xml
+.idea/
+*.iml
