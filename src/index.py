@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 import telebot
 
@@ -10,12 +11,16 @@ KEY_VALUE_STORE_TOKEN = os.environ.get('KEY_VALUE_STORE_TOKEN')
 
 
 def is_light_enabled():
-    response = requests.get(f'https://keyvalue.immanuel.co/api/KeyVal/GetValue/{KEY_VALUE_STORE_TOKEN}/light')
-    return True if response.json() == '1' else False
+    with open('light_db', 'r') as f:
+        return f.readline() == '1'
+    # response = requests.get(f'https://keyvalue.immanuel.co/api/KeyVal/GetValue/{KEY_VALUE_STORE_TOKEN}/light')
+    # return response.json() == '1'
 
 
 def update_light_status(value):
-    requests.post(f'https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/{KEY_VALUE_STORE_TOKEN}/light/{value}')
+    with open('light_db', 'w') as f:
+        f.write(value)
+    # requests.post(f'https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/{KEY_VALUE_STORE_TOKEN}/light/{value}')
 
 
 def ping_and_notify():
@@ -35,5 +40,15 @@ def ping_and_notify():
             update_light_status('0')
 
 
-def lambda_handler(event, context):
-    ping_and_notify()
+def handler():
+    while True:
+        try:
+            ping_and_notify()
+            time.sleep(60)
+        except Exception as e:
+            print(e)
+            time.sleep(5)
+
+
+if __name__ == '__main__':
+    handler()
