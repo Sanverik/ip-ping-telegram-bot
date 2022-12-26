@@ -7,6 +7,13 @@ TARGET_IP = os.environ.get('TARGET_IP')
 CHANNEL_ID = os.environ.get('CHANNEL_ID')
 
 
+def init():
+    if not os.path.exists('light_db'):
+        with open('light_db', 'w') as f:
+            # assumption
+            f.write('1')
+
+
 def is_light_enabled():
     with open('light_db', 'r') as f:
         return f.readline() == '1'
@@ -45,4 +52,5 @@ def handler():
 
 
 if __name__ == '__main__':
+    init()
     handler()
