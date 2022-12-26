@@ -1,0 +1,8 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytelegrambotapi = "==3.6.7"
+requests = "==2.27.1"
