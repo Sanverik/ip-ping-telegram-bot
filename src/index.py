@@ -8,19 +8,19 @@ CHANNEL_ID = os.environ.get('CHANNEL_ID')
 
 
 def init():
-    if not os.path.exists('light_db'):
-        with open('light_db', 'w') as f:
+    if not os.path.exists('../efs/light_db'):
+        with open('../efs/light_db', 'w') as f:
             # assumption
             f.write('1')
 
 
 def is_light_enabled():
-    with open('light_db', 'r') as f:
+    with open('../efs/light_db', 'r') as f:
         return f.readline() == '1'
 
 
 def update_light_status(value):
-    with open('light_db', 'w') as f:
+    with open('../efs/light_db', 'w') as f:
         f.write(value)
 
 
@@ -29,13 +29,13 @@ def ping_and_notify():
     bot = telebot.TeleBot(BOT_TOKEN)
     if response == 0:
         if not is_light_enabled():
-            message = bot.send_message(CHANNEL_ID, 'light turned on')
+            message = bot.send_message(CHANNEL_ID, 'Світло й інтернет появилися!')
             bot.pin_chat_message(CHANNEL_ID, message.message_id)
             bot.send_message(CHANNEL_ID, '/dream_off')
             update_light_status('1')
     else:
         if is_light_enabled():
-            message = bot.send_message(CHANNEL_ID, 'light turned off')
+            message = bot.send_message(CHANNEL_ID, 'Світло й інтернет зникли!')
             bot.pin_chat_message(CHANNEL_ID, message.message_id)
             bot.send_message(CHANNEL_ID, '/dream_on')
             update_light_status('0')
